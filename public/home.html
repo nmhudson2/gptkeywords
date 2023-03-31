@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bootstrap Site</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+      integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <nav class="navbar bg-light">
+      <div class="container-fluid justify-content-around">
+        <a class="navbar-brand" href="#">
+          <img
+            src="./assets/3ships false-logo.png"
+            alt="Logo"
+            width="100"
+            height="50"
+            class="d-inline-block align-text-top"
+          />
+        </a>
+        <h1>3SA Keywords</h1>
+        <form class="d-flex" role="search">
+          <input
+            class="form-control me-2"
+            id="searchterm"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <a class="btn btn-outline-success" type="submit" onpage="setter()">
+            Search
+          </a>
+        </form>
+      </div>
+    </nav>
+    <div class="playground">
+      <div id="topTA">
+        <h4 id="topTag">Enter Your Article Here:</h4>
+        <textarea
+          name="input"
+          id="inText"
+          aria-required
+          style="resize: inherit"
+          ;
+        ></textarea>
+      </div>
+
+      <button onclick="gptAPICAll()" class="pageInteractive">Generate</button>
+      <button onclick="clear()" class="pageInteractive">Clear</button>
+      <div class="bottomTA">
+        <h4 id="bottomTag">Keywords:</h4>
+        <textarea
+          name="input"
+          id="outText"
+          aria-required
+          style="resize: none"
+          ;
+          readonly
+        ></textarea>
+      </div>
+    </div>
+  </body>
+  <script src="../src/index.mjs"></script>
+</html>

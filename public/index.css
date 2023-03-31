@@ -1,0 +1,62 @@
+*{
+    font-family: 'Merriweather', serif;
+    text-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.playground{
+    background: rgb(176,175,191);
+    background: linear-gradient(45deg, rgba(176,175,191,1) 9%, rgba(190,191,224,1) 55%, rgba(143,135,251,1) 100%);
+    height: 100vh;
+    text-align: center;
+    padding-top: 3rem;
+    padding-bottom: 11rem;
+}
+#topTag{
+    margin-left: -60% !important;
+    color:white;
+    font-size: 2rem;
+}
+#bottomTag{
+    margin-left: -60% !important;
+    color:white;
+    font-size: 2rem;
+}
+textarea{
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;;
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: black;
+    width: 60vw;
+    height: 30vh;
+    padding: 1%;
+    background-color: whitesmoke;
+    transition: all .75s;
+}
+button.pageInteractive{
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    margin-top: 2%;
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: black;
+    padding: 1%;
+    background-color: whitesmoke;
+    transition: all .75s;
+}
+
+textarea:hover{
+    scale: 1.01;
+}
+
+textarea:focus{
+    outline: none;
+}
+
+button:hover{
+    background-color: black;
+    color: aliceblue;
+    backface-visibility: hidden;
+    scale: 1.01;
+}
+
+button:focus{
+    outline: none;
+}
