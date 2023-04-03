@@ -96,5 +96,35 @@
       </div>
     </div>
   </body>
-  <script src="../src/index.mjs"></script>
+    <script>
+    var input = document.getElementById("inText");
+    var button = document.getElementById("submit");
+    var output = document.getElementById("outText");
+
+    button.addEventListener("submit", function () {
+      fetch("/request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: input.value }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          output.value = data.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          output.value = "An error occurred.";
+        });
+    });
+  </script>
+  <script>
+    function setSession() {
+      var query = document.getElementById("query").value;
+      console.log("query:", query); // Check the value of query in the console
+      sessionStorage.setItem("Query", query);
+      console.log("session value:", sessionStorage.getItem("Query")); // Check the session storage value in the console
+    }
+
+    // Call the setSession() function from a button click event or from the onsubmit event of a form
+  </script>
 </html>
