@@ -60,3 +60,11 @@ button:hover{
 button:focus{
     outline: none;
 }
+
+
+.KWres{
+    margin: 2px;
+    border: 2px black;
+    background-color: paleturquoise;
+    color: black;
+}

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Keywords</title>
+    <!-- chart stuff -->
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css"
+    />
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <!-- end chart stuff -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+      integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="index.css" />
+    <style>
+      .main {
+        max-width: 30vw;
+      }
+    </style>
+  </head>
+  <body id="body">
+    <nav class="navbar bg-light" id="nav">
+      <div class="container-fluid justify-content-around">
+        <a class="navbar-brand" href="#">
+          <img
+            src="./assets/3ships false-logo.png"
+            alt="Logo"
+            width="100"
+            height="50"
+            class="d-inline-block align-text-top"
+          />
+        </a>
+        <h1>3SA Keywords</h1>
+        <form
+          class="d-flex"
+          id="search"
+          role="search"
+          action="/trends"
+          method="post"
+        >
+          <input
+            class="form-control me-2"
+            id="query"
+            name="keyword"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <button
+            class="btn btn-outline-success"
+            type="submit"
+            id="trend"
+            onclick="setSession()"
+          >
+            Search
+          </button>
+        </form>
+      </div>
+    </nav>
+    <div class="main">
+      <div id="chart" class="ct-chart ct-minor-second"></div>
+    </div>
+  </body>
+  <script>
+    window.addEventListener("load", () => {
+      const nav = document.getElementById("nav");
+      if (nav) {
+        const keyword = sessionStorage.getItem("Query");
+        console.log("Keyword:", keyword);
+
+        const data = { keyword };
+        fetch("/trends", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json()) // parse response as JSON
+          .then((data) => {
+            sessionStorage.setItem("JData", JSON.stringify(data)); // store as JSON string in session storage
+            console.log("Response data:", data);
+          })
+          .catch((error) => {
+            console.error("Fetch error:", error);
+          });
+      }
+    });
+  </script>
+
+  <script>
+    window.addEventListener("click", (event) => {
+      var jData = sessionStorage.getItem("JData");
+      jData = JSON.parse(jData);
+      const dates = [];
+      const values = [];
+      const val = [values];
+
+      for (let i = 0; i < jData.length; i++) {
+        dates.push(jData[i].date);
+        values.push(jData[i].value[0]);
+      }
+
+      console.log(dates);
+      console.log(values);
+      const data = {
+        labels: dates,
+        series: val,
+      };
+
+      // Get the canvas element for the chart
+      const chart = document.getElementById("chart");
+
+      // Create the chart
+      new Chartist.Line(chart, data, {
+        low: 0,
+        showArea: true,
+      });
+    });
+  </script>
+  <!-- <script>
+    window.addEventListener("load", () => {
+      const nav = document.getElementById("nav");
+      if (nav) {
+        const keyword = sessionStorage.getItem("Query");
+        console.log("Keyword:", keyword); // Add this line
+        const data = { keyword };
+        // Fetch the data from the server
+        fetch("/trends", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((response) => {
+            console.log("Response data:", response); // Add this line
+            // Extract the data and labels from the response
+            const labels = [response.date];
+            const series = [response.value];
+
+            // Create the data object for the chart
+            const data = {
+              labels: labels,
+              series: series,
+            };
+
+            // Get the canvas element for the chart
+            const chart = document.getElementById("chart");
+
+            // Create the chart
+            new Chartist.Line(chart, data);
+          })
+          .catch((error) => {
+            console.error("Fetch error:", error); // Add this line
+          });
+      }
+    });
+  </script> -->
+</html>
