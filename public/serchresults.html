@@ -200,9 +200,6 @@
         dates.push(jData[i].date);
         values.push(jData[i].value[0]);
       }
-
-      console.log(dates);
-      console.log(values);
       const data = {
         labels: dates,
         series: val,
@@ -216,7 +213,7 @@
         axisX: {
           offset: 100, // increase the distance between axis and chart
           labelInterpolationFnc: function (value, index) {
-            return index % 2 === 0 ? value : null; // display only every other label
+            return index % 3 === 0 ? value : null; // display only every other label
           },
         },
         low: 0,

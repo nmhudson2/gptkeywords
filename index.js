@@ -27,7 +27,7 @@ app.post("/request", async(req,res)=>{
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages:[
-        {"role":"user", "content": `Return an array of the most important individual words in ${req.body.input}, between 5 and 15 words long. These words should be the most likely to increase sclick rates and Google ranking for SEO.`}
+        {"role":"user", "content": `Return an array of the most important individual words in ${req.body.input}, between 5 and 15 words long. These words should be the most likely to increase sclick rates and Google ranking for SEO. Avoid words and phrases such as "we rank" or "we find". Only nouns, proper nounds, and positive adjectives should be considered.`}
       ],
       max_tokens: 1000,
       temperature: 0,
