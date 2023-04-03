@@ -4,10 +4,13 @@ require("dotenv").config();
 const path = require('path');
 const{ Configuration, OpenAIApi } = require('openai');
 
+<<<<<<< HEAD
 // new
 const googleTrends = require("google-trends-api");
 const Chart = require("chart.js");
 // end new
+=======
+>>>>>>> 733396c9aebffb514c33b53ff244ed92f89f3ac3
 const app = express();
 
 app.use(express.json());
@@ -61,14 +64,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, 'public', 'home.html'));
   });
+<<<<<<< HEAD
 //END PAGE SERVER
 
+=======
+
+//END PAGE SERVER
+
+>>>>>>> 733396c9aebffb514c33b53ff244ed92f89f3ac3
 app.all("/post", (req, res) => {
     // Handle GET and POST requests
   });
 
 
 
+<<<<<<< HEAD
   app.post('/trends', (req, res) => {
     const { keyword } = req.body;
     const {startTime} = new Date(Date.now()-730*24*60*60*1000)
@@ -97,3 +107,5 @@ app.all("/post", (req, res) => {
         });
   });
   
+=======
+>>>>>>> 733396c9aebffb514c33b53ff244ed92f89f3ac3
