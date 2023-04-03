@@ -84,7 +84,7 @@
       <div id="chart" class="ct-chart ct-minor-second"></div>
     </div>
   </body>
-  <script>
+   <script>
     window.addEventListener("load", () => {
       const nav = document.getElementById("nav");
       if (nav) {
@@ -141,44 +141,4 @@
       });
     });
   </script>
-  <!-- <script>
-    window.addEventListener("load", () => {
-      const nav = document.getElementById("nav");
-      if (nav) {
-        const keyword = sessionStorage.getItem("Query");
-        console.log("Keyword:", keyword); // Add this line
-        const data = { keyword };
-        // Fetch the data from the server
-        fetch("/trends", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        })
-          .then((response) => response.json())
-          .then((response) => {
-            console.log("Response data:", response); // Add this line
-            // Extract the data and labels from the response
-            const labels = [response.date];
-            const series = [response.value];
-
-            // Create the data object for the chart
-            const data = {
-              labels: labels,
-              series: series,
-            };
-
-            // Get the canvas element for the chart
-            const chart = document.getElementById("chart");
-
-            // Create the chart
-            new Chartist.Line(chart, data);
-          })
-          .catch((error) => {
-            console.error("Fetch error:", error); // Add this line
-          });
-      }
-    });
-  </script> -->
 </html>
