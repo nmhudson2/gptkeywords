@@ -4,13 +4,10 @@ require("dotenv").config();
 const path = require('path');
 const{ Configuration, OpenAIApi } = require('openai');
 
-<<<<<<< HEAD
 // new
 const googleTrends = require("google-trends-api");
 const Chart = require("chart.js");
 // end new
-=======
->>>>>>> 733396c9aebffb514c33b53ff244ed92f89f3ac3
 const app = express();
 
 app.use(express.json());
@@ -30,9 +27,9 @@ app.post("/request", async(req,res)=>{
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages:[
-        {"role":"user", "content": `Return an array of the most important words in ${req.body.input}, no less than 5 words long.`}
+        {"role":"user", "content": `Return an array of the most important individual words in ${req.body.input}, between 5 and 15 words long. These words should be the most likely to increase sclick rates and Google ranking for SEO.`}
       ],
-      max_tokens: 500,
+      max_tokens: 1000,
       temperature: 0,
       top_p: 0,
       frequency_penalty:0.0,
@@ -64,30 +61,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, 'public', 'home.html'));
   });
-<<<<<<< HEAD
-//END PAGE SERVER
-
-=======
 
 //END PAGE SERVER
 
->>>>>>> 733396c9aebffb514c33b53ff244ed92f89f3ac3
 app.all("/post", (req, res) => {
     // Handle GET and POST requests
   });
 
 
 
-<<<<<<< HEAD
   app.post('/trends', (req, res) => {
     const { keyword } = req.body;
-    const {startTime} = new Date(Date.now()-730*24*60*60*1000)
+    const startTime = new Date(Date.now()-730*24*60*60*1000)
   
     if (!keyword) {
       return res.status(400).send({ error: "Must have a keyword field" });
     }
   
-    googleTrends.interestOverTime({ keyword })
+    googleTrends.interestOverTime({ keyword,startTime })
       .then(function(results){
           var resultsJson = JSON.parse(results);
           var data = resultsJson["default"];
@@ -107,5 +98,3 @@ app.all("/post", (req, res) => {
         });
   });
   
-=======
->>>>>>> 733396c9aebffb514c33b53ff244ed92f89f3ac3

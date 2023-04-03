@@ -4,6 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Keywords</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- chart stuff -->
     <link
       rel="stylesheet"
@@ -36,15 +45,79 @@
     ></script>
     <link rel="stylesheet" href="index.css" />
     <style>
+      svg.ct-chart-bar,
+      svg.ct-chart-line {
+        overflow: visible;
+      }
+
+      .ct-label.ct-label.ct-horizontal.ct-end {
+        position: relative;
+        justify-content: flex-end;
+        text-align: right;
+        transform-origin: 100% 0;
+        transform: translate(-100%) rotate(-45deg);
+        white-space: nowrap;
+      }
+      nav {
+        color: white;
+        background: rgb(0, 0, 0);
+        background: linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(20, 20, 43, 1) 64%
+        );
+      }
+      .wrapper {
+        color: white;
+        padding-left: 25%;
+        padding-right: 25%;
+        padding-top: 5%;
+        padding-bottom: 10%;
+        background: rgb(0, 0, 0);
+        background: linear-gradient(
+          45deg,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(53, 53, 79, 1) 32%,
+          rgba(44, 50, 70, 1) 80%,
+          rgba(18, 40, 45, 1) 100%
+        );
+      }
       .main {
-        max-width: 30vw;
+        padding: 1.1rem;
+        border-radius: 10px;
+        border-color: black !important;
+        border-width: 10px;
+        background-color: #9d959e;
+        width: 60vw;
+      }
+      .ct-label {
+        font-size: 10px;
+        color: aliceblue;
+      }
+      .ct-series-a .ct-line {
+        /* Set the colour of this series line */
+        stroke: lightblue;
+        /* Control the thikness of your lines */
+        stroke-width: 5px;
+        /* Create a dashed line with a pattern */
+      }
+
+      /* This selector overrides the points style on line charts. Points on line charts are actually just very short strokes. This allows you to customize even the point size in CSS */
+      .ct-series-a .ct-area {
+        /* Colour of your points */
+        fill: rgb(39, 117, 168); /* Change the fill color to red */
+        stroke-width: 0px;
+        /* Make your points appear as squares */
+      }
+      .ct-series-a .ct-point {
+        stroke-width: 0px;
       }
     </style>
   </head>
   <body id="body">
     <nav class="navbar bg-light" id="nav">
       <div class="container-fluid justify-content-around">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="home.html">
           <img
             src="./assets/3ships false-logo.png"
             alt="Logo"
@@ -69,19 +142,23 @@
             placeholder="Search"
             aria-label="Search"
           />
-          <button
+          <a
             class="btn btn-outline-success"
             type="submit"
             id="trend"
             onclick="setSession()"
+            href="serchresults.html"
           >
             Search
-          </button>
+          </a>
         </form>
       </div>
     </nav>
-    <div class="main">
-      <div id="chart" class="ct-chart ct-minor-second"></div>
+    <div class="wrapper">
+      <h3 id="chartLabel"></h3>
+      <div class="main">
+        <div id="chart" name="chart" class="ct-chart ct-minor-seventh"></div>
+      </div>
     </div>
   </body>
   <script>
@@ -112,7 +189,7 @@
   </script>
 
   <script>
-    window.addEventListener("click", (event) => {
+    window.addEventListener("mousemove", (event) => {
       var jData = sessionStorage.getItem("JData");
       jData = JSON.parse(jData);
       const dates = [];
@@ -136,49 +213,37 @@
 
       // Create the chart
       new Chartist.Line(chart, data, {
+        axisX: {
+          offset: 100, // increase the distance between axis and chart
+          labelInterpolationFnc: function (value, index) {
+            return index % 2 === 0 ? value : null; // display only every other label
+          },
+        },
         low: 0,
         showArea: true,
+        point: {
+          radius: 1, // set the radius of points to 3 pixels
+        },
       });
     });
   </script>
-  <!-- <script>
-    window.addEventListener("load", () => {
-      const nav = document.getElementById("nav");
-      if (nav) {
-        const keyword = sessionStorage.getItem("Query");
-        console.log("Keyword:", keyword); // Add this line
-        const data = { keyword };
-        // Fetch the data from the server
-        fetch("/trends", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        })
-          .then((response) => response.json())
-          .then((response) => {
-            console.log("Response data:", response); // Add this line
-            // Extract the data and labels from the response
-            const labels = [response.date];
-            const series = [response.value];
+  <script>
+    function setSession() {
+      var query = document.getElementById("query").value;
+      console.log("query:", query); // Check the value of query in the console
+      sessionStorage.setItem("Query", query);
+      console.log("session value:", sessionStorage.getItem("Query")); // Check the session storage value in the console
+    }
 
-            // Create the data object for the chart
-            const data = {
-              labels: labels,
-              series: series,
-            };
+    // Call the setSession() function from a button click event or from the onsubmit event of a form
+  </script>
+  <script>
+    window.onload = function () {
+      const keyword = sessionStorage.getItem("Query");
 
-            // Get the canvas element for the chart
-            const chart = document.getElementById("chart");
-
-            // Create the chart
-            new Chartist.Line(chart, data);
-          })
-          .catch((error) => {
-            console.error("Fetch error:", error); // Add this line
-          });
-      }
-    });
-  </script> -->
+      document.getElementById(
+        "chartLabel"
+      ).innerHTML = `Results for '${keyword}'`;
+    };
+  </script>
 </html>

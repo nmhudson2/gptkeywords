@@ -1,25 +1,22 @@
 *{
-    font-family: 'Merriweather', serif;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
     text-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
+nav {
+    color: white;
+    background: rgb(25,27,48);
+background: linear-gradient(0deg, rgba(25,27,48,1) 0%, rgba(20,20,43,1) 35%, rgba(20,20,43,1) 70%, rgba(13,13,62,1) 100%);
+   }
 .playground{
-    background: rgb(176,175,191);
-    background: linear-gradient(45deg, rgba(176,175,191,1) 9%, rgba(190,191,224,1) 55%, rgba(143,135,251,1) 100%);
+    background: rgb(0,0,0);
+    background: linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(53,53,79,1) 32%, rgba(44,50,70,1) 80%, rgba(18,40,45,1) 100%);
     height: 100vh;
     text-align: center;
     padding-top: 3rem;
     padding-bottom: 11rem;
 }
-#topTag{
-    margin-left: -60% !important;
-    color:white;
-    font-size: 2rem;
-}
-#bottomTag{
-    margin-left: -60% !important;
-    color:white;
-    font-size: 2rem;
-}
+
 textarea{
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;;
     border-radius: 10px;
@@ -31,6 +28,13 @@ textarea{
     background-color: whitesmoke;
     transition: all .75s;
 }
+
+#topTag, #bottomTag{
+    margin-left: -60% !important;
+    color:white;
+    font-size: 2rem;
+}
+
 button.pageInteractive{
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
     margin-top: 2%;
@@ -39,7 +43,7 @@ button.pageInteractive{
     border-color: black;
     padding: 1%;
     background-color: whitesmoke;
-    transition: all .75s;
+    transition: all .55s;
 }
 
 textarea:hover{
@@ -54,7 +58,7 @@ button:hover{
     background-color: black;
     color: aliceblue;
     backface-visibility: hidden;
-    scale: 1.01;
+    scale: .95;
 }
 
 button:focus{
