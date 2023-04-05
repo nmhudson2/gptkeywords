@@ -45,6 +45,12 @@
     ></script>
     <link rel="stylesheet" href="index.css" />
     <style>
+      * {
+        color: white !important;
+      }
+      body {
+        overflow-x: hidden;
+      }
       svg.ct-chart-bar,
       svg.ct-chart-line {
         overflow: visible;
@@ -67,10 +73,9 @@
           rgba(20, 20, 43, 1) 64%
         );
       }
-      .wrapper {
+      .row {
+        
         color: white;
-        padding-left: 25%;
-        padding-right: 25%;
         padding-top: 5%;
         padding-bottom: 10%;
         background: rgb(0, 0, 0);
@@ -82,7 +87,22 @@
           rgba(18, 40, 45, 1) 100%
         );
       }
+      #chartLabel {
+        margin-left: 10%;
+      }
+      #secondary {
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+          rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+        padding: 1.1rem;
+        border-radius: 10px;
+        background-color: #9d959e;
+        height: 65vh;
+        /* margin-top: 5%; */
+            }
       .main {
+        margin-left: 5%;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+          rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
         padding: 1.1rem;
         border-radius: 10px;
         border-color: black !important;
@@ -112,6 +132,19 @@
       .ct-series-a .ct-point {
         stroke-width: 0px;
       }
+      textarea::-webkit-scrollbar {
+      width: .5em;
+}
+
+textarea::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+textarea::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
     </style>
   </head>
   <body id="body">
@@ -127,7 +160,7 @@
           />
         </a>
         <h1>3SA Keywords</h1>
-        <form
+        <div
           class="d-flex"
           id="search"
           role="search"
@@ -141,6 +174,7 @@
             type="search"
             placeholder="Search"
             aria-label="Search"
+            style="color:black !important"
           />
           <a
             class="btn btn-outline-success"
@@ -151,16 +185,39 @@
           >
             Search
           </a>
-        </form>
+        </div>
       </div>
     </nav>
-    <div class="wrapper">
-      <h3 id="chartLabel"></h3>
-      <div class="main">
-        <div id="chart" name="chart" class="ct-chart ct-minor-seventh"></div>
+    <div class="row g-4">
+      <label for="input" style="margin-left: 2%; font-size: 20px;">Related Terms</label>
+      <textarea
+        id="secondary"
+        class="col-sm-4"
+        name="input"
+        id="outText"
+        aria-required
+        style="resize: none"
+        ;
+        readonly
+      ></textarea>
+      <div class="col-sm-8" style="margin-top: -2%;">
+        <h3 id="chartLabel"></h3>
+        <div class="main">
+          <div id="chart" name="chart" class="ct-chart ct-minor-seventh"></div>
+        </div>
       </div>
     </div>
   </body>
+  <script>
+    window.onload = function () {
+      const keyword = sessionStorage.getItem("Query");
+
+      document.getElementById(
+        "chartLabel"
+      ).innerHTML = `Results for '${keyword}'`;
+    };
+  </script>
+  </script>
   <script>
     window.addEventListener("load", () => {
       const nav = document.getElementById("nav");
@@ -187,7 +244,47 @@
       }
     });
   </script>
+  <script>
+    window.addEventListener("load", () => {
+      const nav = document.getElementById("nav");
 
+      if (nav) {
+        const keyword = sessionStorage.getItem("Query");
+        console.log("In related for " + keyword);
+
+        const data = { keyword };
+        fetch("/related", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json()) // parse response as JSON
+          .then((data) => {
+            sessionStorage.setItem("Related", JSON.stringify(data)); // store as JSON string in session storage
+            console.log("Related data:", data);
+          })
+          .catch((error) => {
+            console.error("Fetch error:", error);
+          });
+      }
+    });
+  </script>
+  <script>
+    window.addEventListener("mousemove", (event) => {
+      var relatedOutput = document.getElementById("secondary");
+      var relatedData = sessionStorage.getItem("Related");
+      relatedData = JSON.parse(relatedData);
+      const rQuerey = [];
+      const values = [];
+      for (let i = 0; i < relatedData.length; i++) {
+        rQuerey.push(relatedData[i].Query);
+        values.push(relatedData[i].value);
+      }
+      relatedOutput.innerText = rQuerey.join(", ");
+    });
+  </script>
   <script>
     window.addEventListener("mousemove", (event) => {
       var jData = sessionStorage.getItem("JData");
@@ -233,14 +330,5 @@
     }
 
     // Call the setSession() function from a button click event or from the onsubmit event of a form
-  </script>
-  <script>
-    window.onload = function () {
-      const keyword = sessionStorage.getItem("Query");
-
-      document.getElementById(
-        "chartLabel"
-      ).innerHTML = `Results for '${keyword}'`;
-    };
   </script>
 </html>

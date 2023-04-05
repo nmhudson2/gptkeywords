@@ -22,6 +22,7 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
+
 app.post("/request", async(req,res)=>{
   try {
     const response = await openai.createChatCompletion({
@@ -48,6 +49,30 @@ app.post("/request", async(req,res)=>{
   }
 });
 
+// app.post("/syl", async(req,res)=>{
+//   try {
+//     const response = await openai.createChatCompletion({
+//       model: "gpt-3.5-turbo",
+//       messages:[
+//         {"role":"user", "content": `What is the Gunning Fog Index for: "${req.body.input}"? There should be no words in this response.`} ],
+//         max_tokens: 1000,
+//         temperature: 0,
+//         top_p: 0,
+//         frequency_penalty:0.0,
+//         presence_penalty: 0.0,
+//         stop:['\n'],
+//       });
+//       return res.status(200).json({
+//         success: true,
+//         data: response.data.choices[0].message.content
+//       });
+//     } catch (error) {
+//       return res.status(400).json({
+//         success: false,
+//         error: error.response ? error.response.data : "There is an issue on the server",
+//       })
+//     }
+//   });
 const port = process.env.PORT || 5000;
 
 
@@ -70,7 +95,7 @@ app.all("/post", (req, res) => {
 
 
 
-  app.post('/trends', (req, res) => {
+  app.post('/trends', async(req, res) => {
     const { keyword } = req.body;
     const startTime = new Date(Date.now()-730*24*60*60*1000)
   
@@ -97,4 +122,61 @@ app.all("/post", (req, res) => {
             res.status(500).send({ error: err.message });
         });
   });
+
+  app.post('/related', async(req,res)=>{
+    const {keyword} = req.body;
+    const startTime = new Date(Date.now()-730*24*60*60*1000)
+  
+    if(!keyword){
+      return res.status(400).send({error: "Must have keyword field"})
+    }
+  
+    googleTrends.relatedQueries({ keyword,startTime })
+      .then(function(results){
+        var resultObj = JSON.parse(results);
+        var data = resultObj["default"];
+        var rankedList = data["rankedList"];
+        var responseData = [];
+  
+        rankedList.forEach(function(keyword){
+          keyword["rankedKeyword"].forEach(function(rankedKeyword) {
+            if (rankedKeyword.value !== undefined){
+              responseData.push({ Query: rankedKeyword['query'], value: rankedKeyword['value'] });
+            }
+          });
+        });
+  
+        res.send(responseData);
+      })
+      .catch(function(err){
+        console.error("Error: ",err);
+        res.status(500).send({ error: err.message });
+      });
+  });
+
+  const cruxAPI = require("crux-api");
+  const { error } = require("console");
+  
+app.post("/CRUX", async(req,res)=>{
+      let URL = req.body;
+
+      if(!URL){
+          return res.status(400).send({error: "Must Enter URL"})
+      };
+      try{
+      const Query = createQueryRecord({key: process.env.CRUS_API_KEY});
+      const response = await Query({ url: "www.google.com", formFactor: 'DESKTOP' })
+      return res.status(200).json({
+        success: true,
+        data: response.data.choices[0].message.content
+      })
+    }catch{
+      return res.status(500).json({
+        success: false,
+        data: error
+      })
+    }
+
+  })
+  
   

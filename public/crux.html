@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Keywords</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- chart stuff -->
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css"
+    />
+    <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+    <!-- end chart stuff -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"
+      integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
+      integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="index.css" />
+    <style>
+      #URL {
+        border-radius: 10px;
+        padding: 0.6rem;
+      }
+      body {
+        background: rgb(0, 0, 0);
+        background: linear-gradient(
+          45deg,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(53, 53, 79, 1) 32%,
+          rgba(44, 50, 70, 1) 80%,
+          rgba(18, 40, 45, 1) 100%
+        );
+        overflow-x: hidden;
+      }
+      nav {
+        color: white;
+        background: rgb(0, 0, 0);
+        background: linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(20, 20, 43, 1) 64%
+        );
+      }
+      button {
+        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+          rgba(0, 0, 0, 0.23) 0px 6px 6px;
+        margin-top: 2%;
+        border-radius: 10px;
+        border-width: 2px;
+        border-color: black;
+        padding: 1%;
+        background-color: whitesmoke;
+        transition: all 0.55s;
+      }
+    </style>
+  </head>
+  <body id="body">
+    <nav class="navbar bg-light" id="nav">
+      <div class="container-fluid justify-content-around">
+        <a class="navbar-brand" href="home.html">
+          <img
+            src="./assets/3ships false-logo.png"
+            alt="Logo"
+            width="100"
+            height="50"
+            class="d-inline-block align-text-top"
+          />
+        </a>
+        <h1>3SA Keywords</h1>
+        <div
+          class="d-flex"
+          id="search"
+          role="search"
+          action="/trends"
+          method="post"
+        >
+          <input
+            class="form-control me-2"
+            id="query"
+            name="keyword"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            style="color: black !important"
+          />
+          <a
+            class="btn btn-outline-success"
+            type="submit"
+            id="trend"
+            onclick="setSession()"
+            href="serchresults.html"
+          >
+            Search
+          </a>
+        </div>
+      </div>
+    </nav>
+    <div class="row p-5 mx-5">
+      <div class="col-sm-4">
+        <p style="color: white" for="URL">URL:</p>
+        <input type="text" name="URL" id="URL" />
+        <button class="ml-3">Submit</button>
+      </div>
+    </div>
+    <div class="row justify-content-around text-light mb-5 mx-5">
+      <div class="col-sm-3">
+        <div class="card" style="width: 18rem">
+          <div class="card-body">
+            <h5 class="card-title text-dark">What is a 'CrUX' Anyway?</h5>
+            <p class="card-text text-dark" id="cruxDef">
+              The Chrome User Experience Report (also known as the Chrome UX
+              Report, or CrUX for short) is a dataset that reflects how
+              real-world Chrome users experience popular destinations on the
+              web.
+            </p>
+            <a
+              href="https://developer.chrome.com/docs/crux/about/"
+              class="card-link"
+              >Wnat More?</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div class="card">
+          <div class="card-body" id="chart"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

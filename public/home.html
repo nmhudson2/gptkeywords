@@ -36,6 +36,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
     <link rel="stylesheet" href="index.css" />
+    <style>
+      body {
+        background: rgb(0, 0, 0);
+        background: linear-gradient(
+          45deg,
+          rgba(0, 0, 0, 1) 0%,
+          rgba(53, 53, 79, 1) 32%,
+          rgba(44, 50, 70, 1) 80%,
+          rgba(18, 40, 45, 1) 100%
+        );
+        overflow-x: hidden;
+      }
+    </style>
   </head>
   <body>
     <nav class="navbar bg-light">
@@ -49,8 +62,9 @@
             class="d-inline-block align-text-top"
           />
         </a>
+        <a href="#">CRUX Reports</a>
         <h1>3SA Keywords</h1>
-        <form class="d-flex" id="search" role="search">
+        <div class="d-flex" id="search" role="search">
           <input
             class="form-control me-2"
             id="query"
@@ -68,7 +82,7 @@
           >
             Search
           </a>
-        </form>
+        </div>
       </div>
     </nav>
     <div class="playground">
@@ -80,7 +94,6 @@
           aria-required
           style="resize: inherit"
           ;
-          oninput="test()"
         ></textarea></span
       ><br />
       <button class="pageInteractive" id="submit">Generate</button>
@@ -96,6 +109,29 @@
           oninput="turnToButtons()"
         ></textarea>
       </div>
+      <!-- <div class="row justify-content-around text-light mt-4 mx-4">
+        <div class="col-sm-3">
+          <div class="card" style="width: 18rem">
+            <div class="card-body">
+              <h5 class="card-title text-dark">Flesch-Kincaid Score</h5>
+              <p class="card-text text-dark" id="outGF"></p>
+              <a href="#" class="card-link">What Does This mean?</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          Other Metrics
+          <div class="card" style="width: 18rem">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+              <p class="card-text"></p>
+              <a href="#" class="card-link">Card link</a>
+              <a href="#" class="card-link">Another link</a>
+            </div>
+          </div>
+        </div>
+      </div> -->
     </div>
   </body>
   <script>
@@ -129,8 +165,27 @@
 
     // Call the setSession() function from a button click event or from the onsubmit event of a form
   </script>
+  <!-- <script>
+    var input = document.getElementById("inText");
+    var button = document.getElementById("submit");
+    // var output = document.getElementById("outText");
 
-  <script></script>
+    button.addEventListener("click", function () {
+      fetch("/syl", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: input.value }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          document.getElementById("flesch-kincaid-out").innerHTML = data.data;
+        })
+        .catch((error) => {
+          console.error(error);
+          output.value = "An error occurred.";
+        });
+    });
+  </script> -->
   <script type="text/javascript">
     window.addEventListener(
       "keydown",
