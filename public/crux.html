@@ -123,15 +123,15 @@
         </div>
       </div>
     </nav>
-    <div class="row p-5 mx-5">
-      <div class="col-sm-4">
+    <div class="row p-5 mx- g-4">
+      <div class="col-md-4">
         <p style="color: white" for="URL">URL:</p>
         <input type="text" name="URL" id="URL" />
-        <button class="ml-3">Submit</button>
+        <button class="ml-3" id="submit">Submit</button>
       </div>
     </div>
     <div class="row justify-content-around text-light mb-5 mx-5">
-      <div class="col-sm-3">
+      <div class="col-md-3">
         <div class="card" style="width: 18rem">
           <div class="card-body">
             <h5 class="card-title text-dark">What is a 'CrUX' Anyway?</h5>
@@ -144,7 +144,7 @@
             <a
               href="https://developer.chrome.com/docs/crux/about/"
               class="card-link"
-              >Wnat More?</a
+              >Want More?</a
             >
           </div>
         </div>
@@ -155,5 +155,96 @@
         </div>
       </div>
     </div>
+    <!-- GPT CRUX -->
+    <h1>CrUX API Query</h1>
+    <form id="query-form" action="">
+      <label for="url-input">Enter URL to Query:</label>
+      <input type="text" id="url-input" name="url-input" /><br />
+      <label for="device-input">Device Type:</label>
+      <select id="device-input" name="device-input">
+        <option value="desktop">Desktop</option>
+        <option value="phone">Mobile</option>
+        <option value="tablet">Tablet</option></select
+      ><br />
+      <label for="metric-input">Metric to Query:</label>
+      <select id="metric-input" name="metric-input">
+        <option value="first_contentful_paint">First Contentful Paint</option>
+        <option value="largest_contentful_paint">
+          Largest Contentful Paint
+        </option>
+        <option value="cumulative_layout_shift">
+          Cumulative Layout Shift
+        </option></select
+      ><br />
+      <button type="submit">Query</button>
+    </form>
+    <div id="result-container"></div>
+    <!-- END -->
   </body>
+  <!-- CRUX -->
+  <script>
+    const form = document.getElementById("query-form");
+    const resultContainer = document.getElementById("result-container");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const url = document.getElementById("url-input").value;
+      const deviceType = document.getElementById("device-input").value;
+      const metric = document.getElementById("metric-input").value;
+      const requestBody = {
+        url: url,
+        formFactor: deviceType,
+        metrics: [
+          {
+            metricName: metric,
+            type: "origin",
+          },
+        ],
+      };
+
+      fetch("/crux-api", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          resultContainer.innerHTML = `<h2>Results for ${url} on ${deviceType} for ${metric}:</h2><pre>${JSON.stringify(
+            data,
+            null,
+            2
+          )}</pre>`;
+        })
+        .catch((error) => {
+          resultContainer.innerHTML = `<h2>Error:</h2><pre>${JSON.stringify(
+            error,
+            null,
+            2
+          )}</pre>`;
+        });
+    });
+  </script>
+  <!-- END -->
+  <!-- <script>
+    var button = document.getElementById("submit");
+    var input = document.getElementById("URL").value;
+
+    button.addEventListener("click", function () {
+      fetch("/crux-api", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: input.value }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error(error);
+          // output.value = "An error occurred.";
+        });
+    });
+  </script> -->
 </html>

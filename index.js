@@ -28,7 +28,7 @@ app.post("/request", async(req,res)=>{
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages:[
-        {"role":"user", "content": `Return an array of the most important individual words in ${req.body.input}, between 5 and 15 words long. These words should be the most likely to increase sclick rates and Google ranking for SEO. Avoid words and phrases such as "we rank" or "we find". Only nouns, proper nounds, and positive adjectives should be considered.`}
+        {"role":"user", "content": `Return an array of the most important individual words in ${req.body.input}, between 5 and 15 words long. It is very important that the response be multiple words or phrases. These words should be the most likely to increase sclick rates and Google ranking for SEO. Avoid words and phrases such as "we rank" or "we find". Only nouns, proper nounds, and positive adjectives should be considered.`}
       ],
       max_tokens: 1000,
       temperature: 0,
@@ -154,29 +154,31 @@ app.all("/post", (req, res) => {
       });
   });
 
-  const cruxAPI = require("crux-api");
-  const { error } = require("console");
-  
-app.post("/CRUX", async(req,res)=>{
-      let URL = req.body;
 
-      if(!URL){
-          return res.status(400).send({error: "Must Enter URL"})
-      };
-      try{
-      const Query = createQueryRecord({key: process.env.CRUS_API_KEY});
-      const response = await Query({ url: "www.google.com", formFactor: 'DESKTOP' })
-      return res.status(200).json({
-        success: true,
-        data: response.data.choices[0].message.content
-      })
-    }catch{
-      return res.status(500).json({
-        success: false,
-        data: error
-      })
-    }
+//CRUX_API
+const CrUXApiUtil = require("crux-api");
 
-  })
-  
-  
+CrUXApiUtil.API_KEY = process.env.CRUX_API_KEY;
+CrUXApiUtil.API_ENDPOINT = `https://chromeuxreport.googleapis.com/v1/records:queryRecord?key=${CrUXApiUtil.API_KEY}`;
+
+app.post('/crux-api', (req, res) => {
+  const requestBody = req.body;
+  if (CrUXApiUtil.API_KEY == '[YOUR_API_KEY]') {
+    res.status(400).send('Replace "YOUR_API_KEY" with your private CrUX API key. Get a key at https://goo.gle/crux-api-key.');
+  } else {
+    fetch(CrUXApiUtil.API_ENDPOINT, {
+      method: 'POST',
+      body: JSON.stringify(requestBody)
+    }).then(response => response.json())
+    .then(response => {
+      if (response.error) {
+        res.status(400).send(response);
+      } else {
+        res.send(response);
+      }
+    }).catch(error => {
+      res.status(500).send(error);
+    });
+  }
+});  
+//END CRUX
